@@ -91,6 +91,26 @@ export type DragMatchPayload = {
   audioPromptUrl?: string | null
 }
 
+/** Tap-the-right-one (multiple choice). */
+export type TapPickPayload = {
+  /** Label the kid must identify (e.g. "red", "cat"). */
+  correctLabel: string
+  /** Visual options shown side-by-side; exactly one matches correctLabel. */
+  choices: { image: string; label: string }[]
+  audioPromptUrl?: string | null
+}
+
+/** Memory / concentration. Cards are derived as one image-card + one label-card per pair. */
+export type MemoryPayload = {
+  pairs: { image: string; label: string }[]
+}
+
+/** Sort items into bins (e.g. Farm vs Wild animals). */
+export type SortPayload = {
+  bins: { id: string; label: string; emoji?: string | null }[]
+  items: { image: string; label: string; binId: string }[]
+}
+
 export type LessonItemDto = {
   id: number
   kind: LessonItemKind

@@ -8,9 +8,20 @@ import {
   useCharacters,
   useSubmitProgress,
 } from '../auth/apiHooks'
-import DragMatchGame, { type DragMatchResult } from '../components/DragMatchGame'
+import DragMatchGame from '../components/DragMatchGame'
+import TapPickGame from '../components/TapPickGame'
+import MemoryGame from '../components/MemoryGame'
+import SortGame from '../components/SortGame'
 import MascotEscort, { type MascotMood } from '../components/MascotEscort'
-import { Category, LessonItemKind, type DragMatchPayload } from '../lib/apiTypes'
+import type { GameResult } from '../components/gameTypes'
+import {
+  Category,
+  LessonItemKind,
+  type DragMatchPayload,
+  type TapPickPayload,
+  type MemoryPayload,
+  type SortPayload,
+} from '../lib/apiTypes'
 import { markCategoryComplete, nextCategory } from '../lib/progress'
 
 const CATEGORY_VALUES = new Set<number>(Object.values(Category))
@@ -157,7 +168,7 @@ export default function PlayLessonPage() {
     else        flash('sad',   t('play.tryAgain'), 800)
   }
 
-  const handleItemComplete = async (result: DragMatchResult) => {
+  const handleItemComplete = async (result: GameResult) => {
     setScores((s) => [...s, result.score])
     flash('celebrating', t('play.wellDone'), 1200)
     try {
@@ -169,6 +180,53 @@ export default function PlayLessonPage() {
   }
 
   const prompt = isHe && currentItem.promptHe ? currentItem.promptHe : currentItem.promptEn
+
+  const renderGame = () => {
+    switch (currentItem.kind) {
+      case LessonItemKind.DragMatch:
+        return (
+          <DragMatchGame
+            key={currentItem.id}
+            payload={currentItem.payload as DragMatchPayload}
+            onAttempt={handleAttempt}
+            onComplete={handleItemComplete}
+          />
+        )
+      case LessonItemKind.TapPick:
+        return (
+          <TapPickGame
+            key={currentItem.id}
+            payload={currentItem.payload as TapPickPayload}
+            onAttempt={handleAttempt}
+            onComplete={handleItemComplete}
+          />
+        )
+      case LessonItemKind.Memory:
+        return (
+          <MemoryGame
+            key={currentItem.id}
+            payload={currentItem.payload as MemoryPayload}
+            onAttempt={handleAttempt}
+            onComplete={handleItemComplete}
+          />
+        )
+      case LessonItemKind.Sort:
+        return (
+          <SortGame
+            key={currentItem.id}
+            payload={currentItem.payload as SortPayload}
+            onAttempt={handleAttempt}
+            onComplete={handleItemComplete}
+          />
+        )
+      default:
+        return (
+          <p className="text-center text-slate-500">
+            {t('play.unsupportedKind', { kind: currentItem.kind })}
+          </p>
+        )
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-pink-100 to-amber-100">
@@ -188,18 +246,7 @@ export default function PlayLessonPage() {
         </h2>
         <p className="mb-6 text-center text-lg text-slate-600" dir="auto">{prompt}</p>
 
-        {currentItem.kind === LessonItemKind.DragMatch ? (
-          <DragMatchGame
-            key={currentItem.id}
-            payload={currentItem.payload as DragMatchPayload}
-            onAttempt={handleAttempt}
-            onComplete={handleItemComplete}
-          />
-        ) : (
-          <p className="text-center text-slate-500">
-            {t('play.unsupportedKind', { kind: currentItem.kind })}
-          </p>
-        )}
+        {renderGame()}
       </main>
 
       <MascotEscort character={character} mood={mood} message={message} />

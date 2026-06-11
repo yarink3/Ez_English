@@ -13,14 +13,11 @@ import {
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import type { DragMatchPayload } from '../lib/apiTypes'
+import type { GameResult } from './gameTypes'
+import ItemImage from './ItemImage'
 import { speak } from '../lib/tts'
 
-export type DragMatchResult = {
-  /** Number of mistakes made before completing. */
-  mistakes: number
-  /** Score 0–100 (100 = no mistakes, 20-point penalty per mistake, floor 0). */
-  score: number
-}
+export type DragMatchResult = GameResult
 
 type Props = {
   payload: DragMatchPayload
@@ -146,7 +143,7 @@ function ImageSlot({ pair, matched }: { pair: { image: string; label: string }; 
               : 'border-dashed border-slate-300')
         }
       >
-        <img src={pair.image} alt="" className="h-24 w-24 pointer-events-none" />
+        <ItemImage image={pair.image} alt={pair.label} className="h-24 w-24 pointer-events-none" />
       </button>
       {matched && (
         <motion.button
