@@ -3,7 +3,7 @@
  * label card) and the kid taps two at a time to find matches. Inspired by
  * Khan Academy Kids' classic Memory activity.
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import type { MemoryPayload } from '../lib/apiTypes'
 import type { GameResult } from './gameTypes'
@@ -48,9 +48,15 @@ export default function MemoryGame({ payload, onComplete, onAttempt }: Props) {
   const [mistakes, setMistakes] = useState(0)
   const [locked, setLocked] = useState(false)
   const totalPairs = payload.pairs.length
+  const completedRef = useRef(false)
 
   useEffect(() => {
-    if (Object.keys(matched).length === totalPairs && totalPairs > 0) {
+    if (
+      Object.keys(matched).length === totalPairs &&
+      totalPairs > 0 &&
+      !completedRef.current
+    ) {
+      completedRef.current = true
       const score = Math.max(0, 100 - mistakes * 10)
       const id = window.setTimeout(() => onComplete({ mistakes, score }), 600)
       return () => window.clearTimeout(id)

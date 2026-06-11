@@ -3,7 +3,7 @@
  * bucket (e.g. 🚜 Farm / 🌳 Wild). Mirrors Khan Academy Kids' "Animal
  * Categories" / "Color Sorting" activities.
  */
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DndContext,
   DragOverlay,
@@ -50,9 +50,11 @@ export default function SortGame({ payload, onComplete, onAttempt }: Props) {
 
   const total = items.length
   const done = Object.keys(placed).length
+  const completedRef = useRef(false)
 
   useEffect(() => {
-    if (done === total && total > 0) {
+    if (done === total && total > 0 && !completedRef.current) {
+      completedRef.current = true
       const score = Math.max(0, 100 - mistakes * 20)
       const id = window.setTimeout(() => onComplete({ mistakes, score }), 500)
       return () => window.clearTimeout(id)

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import {
   DndContext,
   DragOverlay,
@@ -51,9 +51,11 @@ export default function DragMatchGame({ payload, onComplete, onAttempt }: Props)
   const [activeLabel, setActiveLabel] = useState<string | null>(null)
   const total = payload.pairs.length
   const done = Object.keys(placed).length
+  const completedRef = useRef(false)
 
   useEffect(() => {
-    if (done === total) {
+    if (done === total && total > 0 && !completedRef.current) {
+      completedRef.current = true
       const score = Math.max(0, 100 - mistakes * 20)
       onComplete({ mistakes, score })
     }
