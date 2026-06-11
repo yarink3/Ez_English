@@ -53,6 +53,7 @@
     "ageYears_one": "{{count}} year old",
     "ageYears_other": "{{count}} years old",
     "levelLabel": "Level",
+    "play": "Play",
     "delete": "Delete profile",
     "confirmDelete": "Delete this profile? This cannot be undone.",
     "errors": {
@@ -63,6 +64,30 @@
       "pinFormat": "PIN must be 4 digits",
       "generic": "Could not save. Please try again."
     }
+  },
+  "categories": {
+    "Colors":  "Colors",
+    "Animals": "Animals",
+    "Family":  "Family",
+    "Letters": "Letters",
+    "Numbers": "Numbers"
+  },
+  "play": {
+    "hi": "Hi, {{name}}!",
+    "pickActivity": "Pick an activity",
+    "comingSoon": "Coming soon",
+    "backToHome": "Back",
+    "childNotFound": "We couldn't find that child.",
+    "unknownCategory": "Unknown category.",
+    "noLessons": "No lessons available yet for this level.",
+    "lessonLoadError": "Could not load the lesson. Please try again.",
+    "lessonComplete": "Nice work — {{title}} complete!",
+    "averageScore": "Average score: {{score}}%",
+    "itemProgress": "{{current}} / {{total}}",
+    "unsupportedKind": "Unsupported activity kind: {{kind}}",
+    "greatJob": "Great job!",
+    "tryAgain": "Try again",
+    "wellDone": "Well done!"
   }
 }
 

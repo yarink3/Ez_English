@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import type { CharacterDto, ChildDto, Level } from '../lib/apiTypes'
 import { levelLabel } from '../lib/apiTypes'
 
@@ -44,14 +45,22 @@ export default function ChildCard({ child, character, onDelete, deleting }: Prop
           </p>
         )}
       </div>
-      <button
-        type="button"
-        onClick={() => onDelete(child.id)}
-        disabled={deleting}
-        aria-label={t('child.delete')}
-        className="rounded-full p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-        title={t('child.delete')}
-      >🗑</button>
+      <div className="flex shrink-0 items-center gap-2">
+        <Link
+          to={`/play/${child.id}`}
+          className="rounded-kid bg-brand-500 px-4 py-2 text-sm font-bold text-white shadow-kid hover:bg-brand-600"
+        >
+          ▶ {t('child.play')}
+        </Link>
+        <button
+          type="button"
+          onClick={() => onDelete(child.id)}
+          disabled={deleting}
+          aria-label={t('child.delete')}
+          className="rounded-full p-2 text-slate-400 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+          title={t('child.delete')}
+        >🗑</button>
+      </div>
     </article>
   )
 }

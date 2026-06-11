@@ -1,12 +1,10 @@
 using EzEnglish.Api.Application.Authorization;
 using EzEnglish.Api.Application.Services;
-using EzEnglish.Api.Infrastructure.Auth;
 using EzEnglish.Api.Infrastructure.Persistence;
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
@@ -26,47 +24,33 @@ builder.Services.AddDbContext<EzEnglishDbContext>(opts =>
     opts.UseSqlServer(conn);
 });
 
-// ---------------- Firebase Admin SDK init ----------------
-// Initialise once per process. Credentials come from either a service-account
-// JSON file (Firebase:ServiceAccountPath in appsettings) or the standard
-// GOOGLE_APPLICATION_CREDENTIALS env var. ProjectId is taken from config.
-// If no credentials are available we skip init — token validation will fail
-// loudly per-request, but the host can still start (so EF design-time tools
-// and Swagger generation keep working in environments without secrets).
-var firebaseSection = builder.Configuration.GetSection("Firebase");
-var firebaseProjectId = firebaseSection["ProjectId"]
+// ---------------- Authentication (Firebase ID tokens via JwtBearer) ----------------
+// Firebase ID tokens are RS256 JWTs issued by Google Identity Platform.
+// JwtBearer fetches Google's public keys from OIDC discovery at
+//   https://securetoken.google.com/<projectId>/.well-known/openid-configuration
+// so no Firebase service-account JSON is needed on the server.
+var firebaseProjectId = builder.Configuration["Firebase:ProjectId"]
     ?? throw new InvalidOperationException("Missing Firebase:ProjectId in configuration.");
-if (FirebaseApp.DefaultInstance is null)
-{
-    var serviceAccountPath = firebaseSection["ServiceAccountPath"];
-    GoogleCredential? credential = null;
-    if (!string.IsNullOrWhiteSpace(serviceAccountPath) && File.Exists(serviceAccountPath))
-    {
-        credential = GoogleCredential.FromFile(serviceAccountPath);
-    }
-    else
-    {
-        try { credential = GoogleCredential.GetApplicationDefault(); }
-        catch { /* No ADC available — handled below. */ }
-    }
-    if (credential is not null)
-    {
-        FirebaseApp.Create(new AppOptions
-        {
-            Credential = credential,
-            ProjectId = firebaseProjectId,
-        });
-    }
-}
+var firebaseIssuer = $"https://securetoken.google.com/{firebaseProjectId}";
 
-// ---------------- Authentication (Firebase) ----------------
-// Custom JwtBearer-style scheme that delegates token validation to the
-// Firebase Admin SDK. See Infrastructure/Auth/FirebaseAuthenticationHandler.cs.
 builder.Services
-    .AddAuthentication(FirebaseAuthOptions.SchemeName)
-    .AddScheme<FirebaseAuthOptions, FirebaseAuthenticationHandler>(
-        FirebaseAuthOptions.SchemeName,
-        opts => opts.ProjectId = firebaseProjectId);
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(opts =>
+    {
+        opts.Authority = firebaseIssuer;
+        opts.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = firebaseIssuer,
+            ValidateAudience = true,
+            ValidAudience = firebaseProjectId,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(2),
+        };
+        // Keep Firebase's original claim names (e.g. "user_id", "email", "name")
+        // available alongside the .NET ClaimTypes.* mappings.
+        opts.MapInboundClaims = true;
+    });
 
 // ---------------- Authorization ----------------
 builder.Services.AddAuthorization(options =>

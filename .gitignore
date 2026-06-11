@@ -30,3 +30,6 @@ firebase-service-account*.json
 *.pfx
 azure.publishsettings
 .azure/
+
+# --- Local dev logs ---
+*.log

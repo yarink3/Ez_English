@@ -53,6 +53,7 @@
     "ageYears_one": "בן/בת שנה",
     "ageYears_other": "בן/בת {{count}}",
     "levelLabel": "רמה",
+    "play": "שחק",
     "delete": "מחיקת פרופיל",
     "confirmDelete": "למחוק את הפרופיל הזה? פעולה זו אינה הפיכה.",
     "errors": {
@@ -63,6 +64,30 @@
       "pinFormat": "הקוד חייב להיות בן 4 ספרות",
       "generic": "השמירה נכשלה. נסו שוב."
     }
+  },
+  "categories": {
+    "Colors":  "צבעים",
+    "Animals": "חיות",
+    "Family":  "משפחה",
+    "Letters": "אותיות",
+    "Numbers": "מספרים"
+  },
+  "play": {
+    "hi": "שלום, {{name}}!",
+    "pickActivity": "בחרו פעילות",
+    "comingSoon": "בקרוב",
+    "backToHome": "חזרה",
+    "childNotFound": "לא מצאנו את הילד/ה.",
+    "unknownCategory": "קטגוריה לא מוכרת.",
+    "noLessons": "עדיין אין שיעורים זמינים ברמה הזו.",
+    "lessonLoadError": "טעינת השיעור נכשלה. נסו שוב.",
+    "lessonComplete": "כל הכבוד — סיימת את {{title}}!",
+    "averageScore": "ציון ממוצע: {{score}}%",
+    "itemProgress": "{{current}} / {{total}}",
+    "unsupportedKind": "סוג פעילות לא נתמך: {{kind}}",
+    "greatJob": "כל הכבוד!",
+    "tryAgain": "נסו שוב",
+    "wellDone": "מעולה!"
   }
 }
 

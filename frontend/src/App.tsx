@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import DashboardPage from './pages/DashboardPage'
+import ChildHomePage from './pages/ChildHomePage'
+import PlayLessonPage from './pages/PlayLessonPage'
 import { RequireAuth } from './auth/RequireAuth'
 
 export default function App() {
@@ -14,6 +16,22 @@ export default function App() {
         element={
           <RequireAuth>
             <DashboardPage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/play/:childId"
+        element={
+          <RequireAuth>
+            <ChildHomePage />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/play/:childId/:category"
+        element={
+          <RequireAuth>
+            <PlayLessonPage />
           </RequireAuth>
         }
       />
