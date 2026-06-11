@@ -1,0 +1,68 @@
+{
+  "appName": "אנגלית קלה",
+  "tagline": "לומדים אנגלית בצורה כיפית",
+  "common": {
+    "loading": "טוען",
+    "saving": "שומר…",
+    "cancel": "ביטול",
+    "close": "סגירה"
+  },
+  "nav": {
+    "dashboard": "לוח בקרה",
+    "children": "ילדים",
+    "logout": "יציאה"
+  },
+  "auth": {
+    "loginTitle": "כניסה להורים",
+    "registerTitle": "יצירת חשבון הורה",
+    "email": "אימייל",
+    "password": "סיסמה",
+    "displayName": "שם להצגה",
+    "submitLogin": "כניסה",
+    "submitRegister": "הרשמה",
+    "googleButton": "התחברות עם Google",
+    "or": "או",
+    "switchToRegister": "אין לך חשבון? להרשמה",
+    "switchToLogin": "יש לך כבר חשבון? לכניסה",
+    "errors": {
+      "emailRequired": "נדרש אימייל",
+      "passwordRequired": "נדרשת סיסמה",
+      "passwordTooShort": "הסיסמה חייבת להיות לפחות 6 תווים",
+      "generic": "אירעה שגיאה. נסו שוב.",
+      "invalidCredentials": "אימייל או סיסמה שגויים",
+      "emailInUse": "כתובת האימייל כבר בשימוש",
+      "popupClosed": "חלון ההתחברות נסגר לפני השלמת הפעולה"
+    }
+  },
+  "dashboard": {
+    "welcome": "ברוכים הבאים, {{name}}!",
+    "subtitle": "הנה הילדים שלכם והפרופילים שלהם.",
+    "noChildrenYet": "עוד לא הוספתם ילדים. בואו ניצור פרופיל ראשון.",
+    "addChild": "הוספת ילד/ה",
+    "loadError": "טעינת הילדים נכשלה."
+  },
+  "child": {
+    "addTitle": "הוספת ילד/ה",
+    "nameLabel": "שם הילד/ה",
+    "birthDateLabel": "תאריך לידה",
+    "birthDateHint": "(גילאים 3–12)",
+    "characterLabel": "בחירת דמות מלווה",
+    "pinLabel": "קוד גישה (אופציונלי)",
+    "pinHint": "4 ספרות, כדי שאחים יוכלו לבחור את הפרופיל שלהם",
+    "submit": "שמירה",
+    "ageYears_one": "בן/בת שנה",
+    "ageYears_other": "בן/בת {{count}}",
+    "levelLabel": "רמה",
+    "delete": "מחיקת פרופיל",
+    "confirmDelete": "למחוק את הפרופיל הזה? פעולה זו אינה הפיכה.",
+    "errors": {
+      "nameRequired": "יש להזין שם",
+      "birthDateRequired": "יש לבחור תאריך לידה",
+      "birthDateOutOfRange": "תאריך הלידה חייב להיות עבור גיל 3–12",
+      "characterRequired": "יש לבחור דמות",
+      "pinFormat": "הקוד חייב להיות בן 4 ספרות",
+      "generic": "השמירה נכשלה. נסו שוב."
+    }
+  }
+}
+

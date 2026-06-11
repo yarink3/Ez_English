@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Ollie the Owl">
+  <circle cx="60" cy="60" r="58" fill="#eff6ff" stroke="#0ea5e9" stroke-width="4"/>
+  <g transform="translate(60 66)">
+    <ellipse rx="32" ry="34" fill="#8b5cf6"/>
+    <ellipse cx="-22" cy="-30" rx="10" ry="14" fill="#6d28d9"/>
+    <ellipse cx="22"  cy="-30" rx="10" ry="14" fill="#6d28d9"/>
+    <circle cx="-12" cy="-6" r="11" fill="#fff"/>
+    <circle cx="12"  cy="-6" r="11" fill="#fff"/>
+    <circle cx="-12" cy="-6" r="4.5" fill="#1f2937"/>
+    <circle cx="12"  cy="-6" r="4.5" fill="#1f2937"/>
+    <path d="M 0 4 l -4 6 h 8 z" fill="#f59e0b"/>
+    <path d="M -16 22 q 5 -3 8 0" stroke="#6d28d9" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <path d="M 8 22 q 5 -3 8 0"   stroke="#6d28d9" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

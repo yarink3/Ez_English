@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Bella the Bunny">
+  <circle cx="60" cy="60" r="58" fill="#fdf2f8" stroke="#ec4899" stroke-width="4"/>
+  <g transform="translate(60 70)">
+    <ellipse cx="-12" cy="-50" rx="7"  ry="22" fill="#fff" stroke="#9ca3af" stroke-width="1.5"/>
+    <ellipse cx="12"  cy="-50" rx="7"  ry="22" fill="#fff" stroke="#9ca3af" stroke-width="1.5"/>
+    <ellipse cx="-12" cy="-50" rx="3"  ry="14" fill="#fbcfe8"/>
+    <ellipse cx="12"  cy="-50" rx="3"  ry="14" fill="#fbcfe8"/>
+    <circle r="28" fill="#fff" stroke="#9ca3af" stroke-width="1.5"/>
+    <circle cx="-9"  cy="-6" r="3.2" fill="#1f2937"/>
+    <circle cx="9"   cy="-6" r="3.2" fill="#1f2937"/>
+    <path d="M 0 4 l -3 4 h 6 z" fill="#ec4899"/>
+    <path d="M -8 14 Q 0 18 8 14" stroke="#1f2937" stroke-width="2" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

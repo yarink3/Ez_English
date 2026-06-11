@@ -1,0 +1,68 @@
+{
+  "appName": "Ez English",
+  "tagline": "Learn English the fun way",
+  "common": {
+    "loading": "Loading",
+    "saving": "Saving…",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "children": "Children",
+    "logout": "Log out"
+  },
+  "auth": {
+    "loginTitle": "Parent sign in",
+    "registerTitle": "Create parent account",
+    "email": "Email",
+    "password": "Password",
+    "displayName": "Display name",
+    "submitLogin": "Sign in",
+    "submitRegister": "Create account",
+    "googleButton": "Sign in with Google",
+    "or": "or",
+    "switchToRegister": "No account yet? Register",
+    "switchToLogin": "Already have an account? Sign in",
+    "errors": {
+      "emailRequired": "Email is required",
+      "passwordRequired": "Password is required",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "generic": "Something went wrong. Please try again.",
+      "invalidCredentials": "Invalid email or password",
+      "emailInUse": "Email is already in use",
+      "popupClosed": "Sign-in popup was closed before completing"
+    }
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}!",
+    "subtitle": "Here are your kids and their profiles.",
+    "noChildrenYet": "No children yet. Let's create the first profile.",
+    "addChild": "Add a child",
+    "loadError": "Could not load children."
+  },
+  "child": {
+    "addTitle": "Add a child",
+    "nameLabel": "Child's name",
+    "birthDateLabel": "Birth date",
+    "birthDateHint": "(ages 3–12)",
+    "characterLabel": "Choose a sidekick character",
+    "pinLabel": "Profile PIN (optional)",
+    "pinHint": "4 digits, so siblings can pick their own profile",
+    "submit": "Save",
+    "ageYears_one": "{{count}} year old",
+    "ageYears_other": "{{count}} years old",
+    "levelLabel": "Level",
+    "delete": "Delete profile",
+    "confirmDelete": "Delete this profile? This cannot be undone.",
+    "errors": {
+      "nameRequired": "Please enter a name",
+      "birthDateRequired": "Please choose a birth date",
+      "birthDateOutOfRange": "Birth date must be for ages 3–12",
+      "characterRequired": "Please choose a character",
+      "pinFormat": "PIN must be 4 digits",
+      "generic": "Could not save. Please try again."
+    }
+  }
+}
+
