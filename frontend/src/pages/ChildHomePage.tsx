@@ -1,21 +1,22 @@
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useChildren, useCharacters } from '../auth/apiHooks'
 import { Category } from '../lib/apiTypes'
+import { isCategoryUnlocked } from '../lib/progress'
 
 type CategoryCard = {
   category: Category
   emoji: string
   bg: string
-  enabled: boolean
 }
 
 const cards: CategoryCard[] = [
-  { category: Category.Colors,  emoji: '🎨', bg: 'bg-pink-200',   enabled: true  },
-  { category: Category.Animals, emoji: '🐾', bg: 'bg-emerald-200', enabled: false },
-  { category: Category.Family,  emoji: '👨‍👩‍👧', bg: 'bg-amber-200',   enabled: false },
-  { category: Category.Letters, emoji: '🔤', bg: 'bg-sky-200',    enabled: false },
-  { category: Category.Numbers, emoji: '🔢', bg: 'bg-violet-200', enabled: false },
+  { category: Category.Colors,  emoji: '🎨',     bg: 'bg-pink-200'    },
+  { category: Category.Animals, emoji: '🐾',     bg: 'bg-emerald-200' },
+  { category: Category.Family,  emoji: '👨‍👩‍👧', bg: 'bg-amber-200'   },
+  { category: Category.Letters, emoji: '🔤',     bg: 'bg-sky-200'     },
+  { category: Category.Numbers, emoji: '🔢',     bg: 'bg-violet-200'  },
 ]
 
 const categoryName: Record<Category, string> = {
@@ -38,6 +39,20 @@ export default function ChildHomePage() {
 
   const child = children.find((c) => c.id === childId)
   const character = characters.find((c) => c.id === child?.characterId)
+
+  // Re-render when localStorage progress changes (other tab or after lesson complete).
+  const [progressTick, setProgressTick] = useState(0)
+  useEffect(() => {
+    const bump = () => setProgressTick((n) => n + 1)
+    window.addEventListener('ezenglish:progress-updated', bump)
+    window.addEventListener('storage', bump)
+    return () => {
+      window.removeEventListener('ezenglish:progress-updated', bump)
+      window.removeEventListener('storage', bump)
+    }
+  }, [])
+  // Reference progressTick so React tracks it in the render dependency.
+  void progressTick
 
   if (isLoading) return <p className="p-6 text-slate-500">{t('common.loading')}…</p>
   if (!child) {
@@ -73,31 +88,34 @@ export default function ChildHomePage() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {cards.map((c) => (
-            <button
-              key={c.category}
-              type="button"
-              disabled={!c.enabled}
-              onClick={() => navigate(`/play/${childId}/${c.category}`)}
-              className={
-                'flex flex-col items-center gap-2 rounded-kid p-6 shadow-kid transition ' +
-                c.bg +
-                (c.enabled
-                  ? ' hover:scale-105'
-                  : ' cursor-not-allowed opacity-50')
-              }
-            >
-              <span className="text-5xl">{c.emoji}</span>
-              <span className="font-bold text-slate-800">
-                {t(`categories.${categoryName[c.category]}`, {
-                  defaultValue: categoryName[c.category],
-                })}
-              </span>
-              {!c.enabled && (
-                <span className="text-xs text-slate-600">{t('play.comingSoon')}</span>
-              )}
-            </button>
-          ))}
+          {cards.map((c) => {
+            const unlocked = isCategoryUnlocked(childId, c.category)
+            return (
+              <button
+                key={c.category}
+                type="button"
+                disabled={!unlocked}
+                onClick={() => navigate(`/play/${childId}/${c.category}`)}
+                className={
+                  'flex flex-col items-center gap-2 rounded-kid p-6 shadow-kid transition ' +
+                  c.bg +
+                  (unlocked
+                    ? ' hover:scale-105'
+                    : ' cursor-not-allowed opacity-50')
+                }
+              >
+                <span className="text-5xl">{unlocked ? c.emoji : '🔒'}</span>
+                <span className="font-bold text-slate-800">
+                  {t(`categories.${categoryName[c.category]}`, {
+                    defaultValue: categoryName[c.category],
+                  })}
+                </span>
+                {!unlocked && (
+                  <span className="text-xs text-slate-600">{t('play.locked')}</span>
+                )}
+              </button>
+            )
+          })}
         </div>
       </main>
     </div>

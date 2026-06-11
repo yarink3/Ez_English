@@ -11,6 +11,7 @@ import {
 import DragMatchGame, { type DragMatchResult } from '../components/DragMatchGame'
 import MascotEscort, { type MascotMood } from '../components/MascotEscort'
 import { Category, LessonItemKind, type DragMatchPayload } from '../lib/apiTypes'
+import { markCategoryComplete, nextCategory } from '../lib/progress'
 
 const CATEGORY_VALUES = new Set<number>(Object.values(Category))
 
@@ -49,6 +50,19 @@ export default function PlayLessonPage() {
   const [scores, setScores] = useState<number[]>([])
 
   useEffect(() => { setItemIdx(0); setScores([]) }, [lessonId])
+
+  // Persist "category complete" the moment the kid finishes the lesson, so the
+  // next stage unlocks on ChildHomePage and the Next-stage CTA below works.
+  useEffect(() => {
+    if (
+      category != null &&
+      lesson &&
+      lesson.items.length > 0 &&
+      itemIdx >= lesson.items.length
+    ) {
+      markCategoryComplete(childId, category)
+    }
+  }, [category, lesson, itemIdx, childId])
 
   const flash = (m: MascotMood, msg?: string, ms = 1100) => {
     setMood(m)
@@ -100,6 +114,7 @@ export default function PlayLessonPage() {
   if (done) {
     const total = scores.reduce((a, b) => a + b, 0)
     const avg = scores.length ? Math.round(total / scores.length) : 0
+    const next = category != null ? nextCategory(category) : null
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-100 via-amber-100 to-rose-100 p-6">
         <div className="mx-auto max-w-md rounded-kid bg-white p-8 text-center shadow-kid">
@@ -110,13 +125,26 @@ export default function PlayLessonPage() {
           <p className="mt-2 text-lg text-slate-600">
             {t('play.averageScore', { score: avg })}
           </p>
-          <div className="mt-6 flex justify-center gap-3">
+          {next != null && (
+            <p className="mt-3 text-sm font-semibold text-emerald-700">
+              🔓 {t('play.nextStageUnlocked')}
+            </p>
+          )}
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button
               onClick={() => navigate(`/play/${childId}`)}
-              className="rounded-kid bg-brand-500 px-5 py-3 font-bold text-white shadow-kid hover:bg-brand-600"
+              className="rounded-kid border-2 border-slate-200 bg-white px-5 py-3 font-bold text-slate-700 hover:bg-slate-50"
             >
               {t('play.backToHome')}
             </button>
+            {next != null && (
+              <button
+                onClick={() => navigate(`/play/${childId}/${next}`)}
+                className="rounded-kid bg-emerald-500 px-6 py-3 font-bold text-white shadow-kid hover:bg-emerald-600"
+              >
+                {t('play.nextStage')} →
+              </button>
+            )}
           </div>
         </div>
         <MascotEscort character={character} mood="celebrating" />
